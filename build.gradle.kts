@@ -42,7 +42,7 @@ dependencies {
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
     compileOnly(kotlin("stdlib"))
-    compileOnly(files("libs/Searching-1.4.2-api.jar"))
+    compileOnly(fileTree("libs"))
 }
 
 tasks.withType<JavaCompile> {
