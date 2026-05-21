@@ -1,0 +1,37 @@
+settings:
+  debug: false
+
+safeboxes:
+  Boss奖励箱:
+    enabled: true
+    unlock-ui: "default"
+    title: "&c保险箱破译"
+    auto-unlock: true
+    auto-unlock-seconds: 30
+    open-immediately-on-success: true
+    unlock-timeout-seconds: 90
+    consume-on-fail: false
+    cooldown-seconds: 3
+    permission: ""
+    messages:
+      locked: "&c这个保险箱被加密保护，需要先破译。"
+      unlocked: "&a破译成功，正在打开保险箱。"
+      failed: "&c破译失败。"
+      auto-unlocked: "&a自动破译完成。"
+
+  实验室保险库:
+    enabled: true
+    unlock-ui: "default"
+    title: "&c实验室保险库破译"
+    auto-unlock: false
+    auto-unlock-seconds: 0
+    open-immediately-on-success: true
+    unlock-timeout-seconds: 90
+    consume-on-fail: false
+    cooldown-seconds: 5
+    permission: "searchingsafebox.lab"
+    messages:
+      locked: "&c这个保险库被加密保护，需要先破译。"
+      unlocked: "&a破译成功，正在打开保险库。"
+      failed: "&c破译失败。"
+      auto-unlocked: "&a自动破译完成。"
