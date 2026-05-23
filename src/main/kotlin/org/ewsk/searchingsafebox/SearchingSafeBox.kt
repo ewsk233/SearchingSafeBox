@@ -59,14 +59,14 @@ object SearchingSafeBox : Plugin() {
             autoUnlockService = AutoUnlockService(DefaultAutoUnlockProgressRenderer())
         )
 
-        info("[SearchingSafeBox] 已启用，加载 ${config.allRules().size} 条保险箱规则。")
-        info("[SearchingSafeBox] 作者 QQ: 2962271068")
+        info("已启用，加载 ${config.allRules().size} 条保险箱规则。")
+        info("作者 QQ: 2962271068")
     }
 
     override fun onDisable() {
         if (::manager.isInitialized) {
             manager.clearSessions("plugin-disable")
         }
-        info("[SearchingSafeBox] 已卸载。")
+        info("已卸载。")
     }
 }

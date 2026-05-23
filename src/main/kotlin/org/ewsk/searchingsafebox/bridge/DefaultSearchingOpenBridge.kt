@@ -6,6 +6,7 @@ import org.ewsk.searching.api.ApiResult
 import org.ewsk.searching.api.SearchingApi
 import org.ewsk.searching.api.SearchingNodeView
 import org.ewsk.searching.core.common.ids.PlayerId
+import org.ewsk.searching.platform.bukkit.event.SearchingPreOpenEvent
 import org.ewsk.searchingsafebox.api.SafeBoxMessages
 import taboolib.common.platform.function.info
 
@@ -27,6 +28,12 @@ class DefaultSearchingOpenBridge : SearchingOpenBridge {
         if (api == null) {
             info("[SearchingSafeBox] Cannot open original Searching node for ${player.name}: SearchingApi service is unavailable.")
             SafeBoxMessages.send(player, "&c无法打开原搜刮箱：Searching API 不可用。")
+            return
+        }
+
+        if (!SearchingPreOpenEvent(player, view).call()) {
+            info("[SearchingSafeBox] Opening original Searching node ${view.id.value} for ${player.name} was cancelled by another plugin.")
+            SafeBoxMessages.send(player, "&cCannot open original Searching node: access denied.")
             return
         }
 

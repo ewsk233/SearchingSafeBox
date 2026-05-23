@@ -10,6 +10,12 @@ object SearchingPreOpenListener {
         if (!SearchingSafeBox.isReady()) {
             return
         }
+        if (event.isCancelled) {
+            return
+        }
+        if (SearchingSafeBox.manager.isOpeningOriginal(event.player.uniqueId, event.node)) {
+            return
+        }
         val nodeTypeId = event.node.typeId
         val rule = SearchingSafeBox.config.getRule(nodeTypeId) ?: return
         if (!rule.enabled) {

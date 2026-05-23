@@ -32,6 +32,7 @@ class SafeBoxManager(
 ) {
     private val cooldowns = ConcurrentHashMap<String, Long>()
     private val timeoutTasks = ConcurrentHashMap<Int, PlatformExecutor.PlatformTask>()
+    private val openingOriginal = ConcurrentHashMap.newKeySet<String>()
     private val nextTaskId = AtomicInteger(1)
 
     fun isSafeBox(nodeTypeId: String): Boolean {
@@ -44,6 +45,10 @@ class SafeBoxManager(
 
     fun setBridge(bridge: SearchingOpenBridge) {
         this.bridge = bridge
+    }
+
+    fun isOpeningOriginal(playerId: UUID, node: Any): Boolean {
+        return openingOriginalKey(playerId, node) in openingOriginal
     }
 
     fun handlePreOpen(player: Player, node: Any, rule: SafeBoxRule) {
@@ -171,7 +176,13 @@ class SafeBoxManager(
             cancel(session, "open-original-cancelled")
             return
         }
-        bridge.openOriginal(player, session.nodeRef)
+        val key = openingOriginalKey(player.uniqueId, session.nodeRef)
+        openingOriginal += key
+        try {
+            bridge.openOriginal(player, session.nodeRef)
+        } finally {
+            openingOriginal -= key
+        }
         session.state = UnlockState.OPENED
         cleanup(session)
     }
@@ -207,6 +218,10 @@ class SafeBoxManager(
 
     private fun cooldownKey(player: UUID, nodeKey: String): String {
         return "$player:$nodeKey"
+    }
+
+    private fun openingOriginalKey(player: UUID, node: Any): String {
+        return cooldownKey(player, nodeKey(node))
     }
 
     private fun nodeKey(node: Any): String {
